@@ -20,13 +20,13 @@ jobs:
       - name: Download Toffee BD files (No Cache)
         run: |
           TIMESTAMP=$(date +%s)
-          # মূল রিপোজিটরির ফাইলের নাম অনুযায়ী ডাউনলোড
-          curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/srhady/toffee-bd/main/toffee.m3u?t=${TIMESTAMP}" -o toffee.m3u
-          curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/srhady/toffee-bd/main/toffee.json?t=${TIMESTAMP}" -o toffee.json
+          # মূল রিপোজিটরির সঠিক ফাইলের নাম
+          curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/srhady/toffee-bd/main/toffee_playlist.m3u?t=${TIMESTAMP}" -o toffee_playlist.m3u
+          curl -H "Cache-Control: no-cache" -sL "https://raw.githubusercontent.com/srhady/toffee-bd/main/toffee_playlist.json?t=${TIMESTAMP}" -o toffee_playlist.json
 
       - name: Commit and Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add toffee_playlist.m3u toffee_playlist.json
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto update Toffee: $(date)" && git push origin main)
